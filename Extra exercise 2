@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Demo2
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            Random r = new Random();
+            int x = 0;
+            int y = 0;
+            Console.WriteLine("How many times do you want to throw the dice");
+            int loops = Int32.Parse(Console.ReadLine());
+            for (int i = 0; i < loops; i++)
+            {
+                Console.Write("Give me a number between 1 and 6:");
+                string NumberStr = Console.ReadLine();
+                int Number = Int32.Parse(NumberStr);
+                int LotteryNumber = r.Next(1, 7);
+                if (Number == LotteryNumber)
+                {
+                    Console.WriteLine("You win");
+                    x ++;
+                }
+                else
+                {
+                    Console.WriteLine("You loose. The number was " + LotteryNumber.ToString());
+                    y++;
+                }
+                   
+            }
+            Console.WriteLine("You won" + " " + x.ToString() + " " + "times");
+            Console.WriteLine("You won" + " " + y.ToString() + " " + "times");
+            Console.WriteLine("The percentage of your wins was" + " " + (100*x/(x+y)).ToString() + " " + "percent and the percentage of your loses was" + " " + (100 * y / (x + y)).ToString() + " " + "percent");
+        }
+    }
+}
