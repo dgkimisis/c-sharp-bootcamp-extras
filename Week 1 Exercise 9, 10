@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+namespace Demo3
+{
+    public class Program
+    {
+
+        public class Dice
+        {
+            private Random r { get; set; }
+            private int Result { get; set; }
+            private int Choice { get; set; }
+            public bool Success { get; set; }
+            private bool NowCheat { get; set; }
+            public bool _loop { get; set; }
+
+            public Dice()
+            {
+                r = new Random();
+            }
+
+            public void Throw(int Number1, int Number2, bool NowCheat)
+            {
+
+                if (NowCheat)
+                    Result = r.Next(1, 8);
+                else
+                    Result = r.Next(1, 7);
+
+                if (Number1 == Result || Number2 == Result)
+                    Success = true;
+                else
+                    Success = false;
+            }
+
+            //Με τη μεταβλητή Rig, ξαναρίχνουμε το ζάρι μέσα στο προηγούμενο όριο χωρίς να μας επιστρέφει 
+            //ποτέ πίσω ως τιμή την επιλογή του παίκτη
+
+            public int Rig()
+            {
+                if (Result == 8)
+                {
+                    do
+                    {
+                        r.Next(1, 7);
+                    }
+                    while (r.Next(1, 7) == Choice);
+                    return Result;
+                }
+                else
+                {
+                    return Result;
+                }
+            }
+        }
+
+
+        public static void Main(string[] args)
+        {
+            Dice dice = new Dice();
+
+            do
+            {
+                Console.Write("Give me teo numbers between 1 and 6:");
+
+                string NumberStr1 = Console.ReadLine();
+                int Number1 = Int32.Parse(NumberStr1);
+
+                string NumberStr2 = Console.ReadLine();
+                int Number2 = Int32.Parse(NumberStr2);
+
+                dice.Throw(Number1, Number2, true);
+                if (dice.Success)
+                    Console.WriteLine("You win");
+                else
+                {
+                    Console.WriteLine("You loose. The number was" + " " + dice.Rig());
+                }
+            }
+            while (Console.ReadKey().KeyChar != 'q');
+        }
+    }
+}
